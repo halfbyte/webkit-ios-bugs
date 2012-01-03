@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>webkit ios oddities - touchscroll</title>
+    <style type="text/css" media="screen">
+      #scroll-wrapper {
+        background: #aaa;
+        width: 500px; 
+        height: 500px;
+        border: 5px solid red;
+        position: absolute;
+        overflow-y: scroll;
+        
+      }
+      #scroll-wrapper ul {
+        list-style-type: none;
+        margin: 0; padding: 0;
+        position: absolute;
+        width: 500px;
+        height: 820px;
+        overflow: hidden;
+      }
+
+      #scroll-wrapper ul li {
+        display: block;
+        width: 100px; height: 400px;
+        background: #ccc;
+        margin: 5px;
+        position: absolute;
+        top: 0; left: 0;
+        -webkit-transition: -webkit-transform 1s ease;
+      }
+      #scroll-wrapper ul.trans li:nth-child(1) {
+        -webkit-transform: translate3d(0,0,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(2) {
+        -webkit-transform: translate3d(110px,0,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(3) {
+        -webkit-transform: translate3d(220px,0,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(4) {
+        -webkit-transform: translate3d(330px,0,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(5) {
+        -webkit-transform: translate3d(0,410px,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(6) {
+        -webkit-transform: translate3d(110px,410px,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(7) {
+        -webkit-transform: translate3d(220px,410px,0);        
+      }
+      #scroll-wrapper ul.trans li:nth-child(8) {
+        -webkit-transform: translate3d(330px,410px,0);        
+      }
+      
+            
+    </style>
+    <script type="text/javascript" charset="utf-8">
+    var induceBug = function() {
+      document.getElementById('scroll-wrapper').style.webkitOverflowScrolling = 'touch';
+    };
+    </script>
+  </head>
+  <body>
+    <h1><a href="/index.html">iOS Webkit oddities</a> - "-webkit-overflow-scrolling: touch"</h1>
+    <p>
+      When adding <code>-webkit-overflow-scrolling: touch</code> to an element that has <code>overflow: auto</code> and contains an element
+      that has <code>overflow: hidden</code> on it which contains elements that are positioned using translate3d, elements disappear. As shown in this example,
+      this also works when adding the <code>webkit-overflow-scrolling</code> property later. Please note that both the scroll wrapper and the inner container
+      have a fixed with, so this is truly a rendering bug. 
+      
+    </p>
+    <p><a href="javascript:induceBug();">Click this to trigger bug on iOS-devices.</a>.<p>
+    <section class="regression">
+      <div id="scroll-wrapper">
+        <ul class="trans">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <li>7</li>
+          <li>8</li>
+        </ul>        
+      </div>
+    </section>
+    <section class="footer">
+      &copy; Jan Krutisch. <a href="http://jan.krutisch.de/">jan.krutisch.de</a>
+    </section>
+  </body>
+</html>
+
+
